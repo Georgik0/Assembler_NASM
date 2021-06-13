@@ -12,27 +12,44 @@
 
 SRC = ft_strlen.s ft_strcpy.s ft_strcmp.s ft_write.s ft_read.s ft_strdup.s
 
-SRC_TEST = hello.s
+SRC_TEST = main.c
 
 HEADER = libasm.h
 
 OBJ = ${SRC:.s=.o}
 
-OBJ_TEST = ${SRC_TEST:.s=.o}
+OBJ_TEST = ${SRC_TEST:.c=.o}
 
 NAME = libasm.a
 
-MAIN = test
+TEST = main
 
-FLAGS_TEST = -macosx_version_min 10.7.0 -lSystem
+CC_TEST = gcc
 
-all:	${OBJ} ${HEADER}
-		ar rc ${NAME} ${OBJ}
-		ranlib ${NAME}
+RM = rm
 
-test:	${OBJ_TEST}
-		ld ${FLAGS_TEST} ${OBJ_TEST} -o ${MAIN}
-		./${MAIN}
-
-%.o: %.s
+%.o: %.s ${HEADER}
 	nasm -f macho64 -s $< -o $@
+
+%.o: %.c ${HEADER}
+	${CC_TEST} -c $< -o $@
+
+${NAME}:	${OBJ} ${HEADER} Makefile
+			ar rc ${NAME} ${OBJ}
+			ranlib ${NAME}
+
+all:	${NAME}
+
+test:	${NAME} ${OBJ_TEST}
+		${CC_TEST} ${OBJ_TEST} libasm.a -o ${TEST}
+		./${TEST}
+
+clean:
+		${RM} -f ${OBJ} ${OBJ_TEST}
+
+fclean:	clean
+		${RM} -f ${NAME} ${TEST} file.txt ft_file.txt
+
+re:		fclean all
+
+.PHONY:	all test clean fclean re

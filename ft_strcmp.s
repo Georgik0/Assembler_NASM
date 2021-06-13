@@ -1,25 +1,26 @@
 global	_ft_strcmp
 ; rdi = s1		rsi = s2
 _ft_strcmp:
-	xor	rax, rax ; возвращает значение
-	xor	rcx, rcx ; счетчик
-	xor	rbx, rbx ; временное хранение
+	xor	rax, rax
+	xor	rcx, rcx
+	xor	rbx, rbx
 	push	rbx
 	.cycle:
 		cmp	[rdi + rcx], byte 0
 		je .get_reg
 		cmp	[rsi + rcx], byte 0
 		je .get_reg
-		mov	rax, [rdi + rcx]
-		mov	rbx, [rsi + rcx]
-		cmp	rax, rbx
+		mov	al, byte [rdi + rcx]
+		mov	bl, byte [rsi + rcx]
+		cmp	eax, ebx
 		jne	.end
-		inc	rcx
+		inc	cl
+		jmp	.cycle
 		.get_reg:
-			mov	rax, [rdi + rcx]
-			mov	rbx, [rsi + rcx]
-			.end
+			mov	al, byte [rdi + rcx]
+			mov	bl, byte [rsi + rcx]
+			jmp	.end
 		.end:
-			sub	rax, rbx
+			sub	eax, ebx
 			pop	rbx
 			ret

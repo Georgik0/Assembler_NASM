@@ -9,7 +9,7 @@ _ft_read:
 	jc	.errno
 	ret
 	.errno:
-		xor	rbx, rbx ; временное хранение
+		xor	rbx, rbx
 		push	rbx
 		mov	rbx, rax
 		call	___error

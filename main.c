@@ -3,6 +3,25 @@
 #include <stdlib.h>
 #include <time.h>
 
+void	test_strlen()
+{
+	char	*str;
+
+	printf("########################TEST1#######################\n");
+
+	str = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
+
+	printf("len = %lu\n", strlen(str));
+	printf("ft_len = %zu\n\n", ft_strlen(str));
+
+	printf("########################TEST2#######################\n");
+
+	str = "";
+
+	printf("len = %lu\n", strlen(str));
+	printf("ft_len = %zu\n\n", ft_strlen(str));
+}
+
 void	test_strcpy()
 {
 	char	*src;
@@ -173,8 +192,8 @@ void	test_strcmp()
 	ft_s2 = strdup("0123456780");
 	printf("До:\nft_s1 = |%s|\nft_s2 = |%s|\n\n", ft_s1, ft_s2);
 	begin = clock();
-	printf("strcmp(ft_s1, ft_s2) = %d\n", strcmp(ft_s1, ft_s2));
-	printf("strcmp(ft_s2, ft_s1) = %d\n\n", strcmp(ft_s2, ft_s1));
+	printf("strcmp(ft_s1, ft_s2) = %d\n", ft_strcmp(ft_s1, ft_s2));
+	printf("strcmp(ft_s2, ft_s1) = %d\n\n", ft_strcmp(ft_s2, ft_s1));
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 	printf("--------\nВремя выполнения = %f\n--------\n", time_spent);
@@ -209,8 +228,8 @@ void	test_strcmp()
 	ft_s2 = strdup("");
 	printf("До:\nft_s1 = |%s|\nft_s2 = |%s|\n\n", ft_s1, ft_s2);
 	begin = clock();
-	printf("strcmp(ft_s1, ft_s2) = %d\n", strcmp(ft_s1, ft_s2));
-	printf("strcmp(ft_s2, ft_s1) = %d\n\n", strcmp(ft_s2, ft_s1));
+	printf("strcmp(ft_s1, ft_s2) = %d\n", ft_strcmp(ft_s1, ft_s2));
+	printf("strcmp(ft_s2, ft_s1) = %d\n\n", ft_strcmp(ft_s2, ft_s1));
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 	printf("--------\nВремя выполнения = %f\n--------\n", time_spent);
@@ -245,8 +264,8 @@ void	test_strcmp()
 	ft_s2 = strdup("\\n\n	\\r\r");
 	printf("До:\nft_s1 = |%s|\nft_s2 = |%s|\n\n", ft_s1, ft_s2);
 	begin = clock();
-	printf("strcmp(ft_s1, ft_s2) = %d\n", strcmp(ft_s1, ft_s2));
-	printf("strcmp(ft_s2, ft_s1) = %d\n\n", strcmp(ft_s2, ft_s1));
+	printf("strcmp(ft_s1, ft_s2) = %d\n", ft_strcmp(ft_s1, ft_s2));
+	printf("strcmp(ft_s2, ft_s1) = %d\n\n", ft_strcmp(ft_s2, ft_s1));
 	end = clock();
 	time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 	printf("--------\nВремя выполнения = %f\n--------\n", time_spent);
@@ -292,8 +311,8 @@ void	test_write()
 
 	int	fd;
 	int	ft_fd;
-	fd = open("file.txt", O_WRONLY);
-	ft_fd = open("ft_file.txt", O_WRONLY);
+	fd = open("file.txt", O_WRONLY | O_CREAT, 0666);
+	ft_fd = open("ft_file.txt", O_WRONLY | O_CREAT, 0666);
 
 	printf("########################TEST2#######################\n");
 	printf("-----------------------write----------------------\n");
@@ -405,14 +424,53 @@ void	test_strdup()
 	char	*str;
 	char	*out;
 
+	printf("########################TEST1#######################\n");
 	str = strdup("123");
-	out = ft_strdup(str);
-	printf("ft_strdup = %s\n", out);
+	printf("strdup = |%s|\n", str);
+	out = ft_strdup("123");
+	printf("ft_strdup = |%s|\n\n", out);
+	bzero(str, strlen(str));
+	bzero(out, strlen(out));
+	free(str);
+	free(out);
+	str = NULL;
+	out = NULL;
+
+	printf("########################TEST2#######################\n");
+	str = strdup("");
+	printf("strdup = |%s|\n", str);
+	out = ft_strdup("");
+	printf("ft_strdup = |%s|\n\n", out);
+	bzero(str, strlen(str));
+	bzero(out, strlen(out));
+	free(str);
+	free(out);
+	str = NULL;
+	out = NULL;
+
+	printf("########################TEST3#######################\n");
+	str = strdup("-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/\n-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/");
+	printf("strdup    = |%s|\n", str);
+	out = ft_strdup("-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/\n-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/");
+	printf("ft_strdup = |%s|\n\n", out);
+	bzero(str, strlen(str));
+	bzero(out, strlen(out));
+	free(str);
+	free(out);
+	str = NULL;
+	out = NULL;
 }
 
 int main(void)
 {
 
+	printf("-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/\n\n");
+	printf("-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-Start test strlen/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/\n\n");
+	printf("-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/\n\n");
+	test_strlen();
+	printf("-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/\n\n");
+	printf("-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-Start test strcpy/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/\n\n");
+	printf("-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/\n\n");
 	test_strcpy();
 	printf("-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/\n\n");
 	printf("-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-Start test strcmp/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/\n\n");
